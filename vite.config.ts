@@ -4,11 +4,9 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [tailwindcss(), react()],
-  // Use root path in dev for local convenience, and the
-  // GitHub Pages subdirectory in production deployments.
-  base: mode === 'production' ? '/' : '/',
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
