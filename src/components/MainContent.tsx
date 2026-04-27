@@ -1,358 +1,591 @@
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Chip from '@mui/material/Chip';
+import Button from '@mui/material/Button';
+import LinearProgress from '@mui/material/LinearProgress';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
 import {
   Users,
   DollarSign,
   Activity,
   TrendingUp,
-  TrendingDown,
+  MoreHorizontal,
+  Mail,
+  Calendar,
+  FileText,
+  Zap,
   Download,
-  FilePlus,
-  UserPlus,
-  Settings,
 } from 'lucide-react';
 
-const currentDate = new Date().toLocaleDateString('en-US', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
-
+// --- Data ---
 const kpiCards = [
   {
     label: 'Total Users',
+    value: '1,234',
+    trend: '+12.5%',
+    up: true,
     icon: Users,
-    value: '12,847',
-    trend: '+8.2%',
-    trendUp: true,
-    badgeClass: 'bg-indigo-500/20 text-indigo-400',
+    bg: 'rgba(99,102,241,0.15)',
+    color: '#6366F1',
   },
   {
     label: 'Revenue',
+    value: '$45,678',
+    trend: '+8.2%',
+    up: true,
     icon: DollarSign,
-    value: '$94,320',
-    trend: '+14.1%',
-    trendUp: true,
-    badgeClass: 'bg-emerald-500/20 text-emerald-400',
+    bg: 'rgba(34,197,94,0.15)',
+    color: '#22C55E',
   },
   {
     label: 'Active Sessions',
+    value: '892',
+    trend: '-3.1%',
+    up: false,
     icon: Activity,
-    value: '3,291',
-    trend: '-3.4%',
-    trendUp: false,
-    badgeClass: 'bg-amber-500/20 text-amber-400',
+    bg: 'rgba(245,158,11,0.15)',
+    color: '#F59E0B',
   },
   {
-    label: 'Growth Rate',
+    label: 'Growth',
+    value: '+12.5%',
+    trend: '+4.6%',
+    up: true,
     icon: TrendingUp,
-    value: '24.7%',
-    trend: '+5.7%',
-    trendUp: true,
-    badgeClass: 'bg-sky-500/20 text-sky-400',
+    bg: 'rgba(59,130,246,0.15)',
+    color: '#3B82F6',
   },
 ];
 
 const revenueData = [
-  { day: 'Mon', value: 42 },
-  { day: 'Tue', value: 68 },
-  { day: 'Wed', value: 55 },
-  { day: 'Thu', value: 80 },
-  { day: 'Fri', value: 73 },
-  { day: 'Sat', value: 91 },
-  { day: 'Sun', value: 64 },
+  { month: 'Jan', value: 45 },
+  { month: 'Feb', value: 62 },
+  { month: 'Mar', value: 55 },
+  { month: 'Apr', value: 78 },
+  { month: 'May', value: 85 },
+  { month: 'Jun', value: 70 },
+  { month: 'Jul', value: 92 },
+  { month: 'Aug', value: 68 },
+  { month: 'Sep', value: 80 },
+  { month: 'Oct', value: 75 },
+  { month: 'Nov', value: 88 },
+  { month: 'Dec', value: 95 },
 ];
 
 const channels = [
-  { name: 'Organic', pct: 42, colorClass: 'bg-emerald-500' },
-  { name: 'Direct', pct: 28, colorClass: 'bg-sky-500' },
-  { name: 'Referral', pct: 18, colorClass: 'bg-violet-500' },
-  { name: 'Social', pct: 12, colorClass: 'bg-amber-500' },
+  { label: 'Organic', value: 45, color: '#6366F1' },
+  { label: 'Direct', value: 28, color: '#22C55E' },
+  { label: 'Referral', value: 18, color: '#F59E0B' },
+  { label: 'Social', value: 9, color: '#3B82F6' },
 ];
 
 const transactions = [
   {
-    name: 'Alex Morgan',
-    type: 'Subscription',
-    amount: '$129.00',
-    status: 'Completed',
-    avatarClass: 'bg-indigo-500',
+    id: '#1234',
+    name: 'Alice Johnson',
+    amount: '$1,250',
+    date: 'Apr 23',
+    status: 'completed' as const,
   },
   {
-    name: 'Sam Chen',
-    type: 'One-time',
-    amount: '$49.99',
-    status: 'Completed',
-    avatarClass: 'bg-emerald-500',
+    id: '#1235',
+    name: 'Bob Smith',
+    amount: '$890',
+    date: 'Apr 22',
+    status: 'pending' as const,
   },
   {
-    name: 'Jordan Lee',
-    type: 'Refund',
-    amount: '-$29.00',
-    status: 'Pending',
-    avatarClass: 'bg-amber-500',
+    id: '#1236',
+    name: 'Carol White',
+    amount: '$2,100',
+    date: 'Apr 21',
+    status: 'completed' as const,
   },
   {
-    name: 'Taylor Kim',
-    type: 'Subscription',
-    amount: '$129.00',
-    status: 'Completed',
-    avatarClass: 'bg-sky-500',
-  },
-  {
-    name: 'Casey Park',
-    type: 'One-time',
-    amount: '$79.00',
-    status: 'Failed',
-    avatarClass: 'bg-rose-500',
+    id: '#1237',
+    name: 'David Brown',
+    amount: '$450',
+    date: 'Apr 20',
+    status: 'failed' as const,
   },
 ];
 
-const statusChipClass: Record<string, string> = {
-  Completed: 'bg-emerald-500/20 text-emerald-400',
-  Pending: 'bg-amber-500/20 text-amber-400',
-  Failed: 'bg-rose-500/20 text-rose-400',
+const statusSx = {
+  completed: { bgcolor: 'rgba(34,197,94,0.1)', color: '#22C55E' },
+  pending: { bgcolor: 'rgba(245,158,11,0.1)', color: '#F59E0B' },
+  failed: { bgcolor: 'rgba(239,68,68,0.1)', color: '#EF4444' },
 };
 
 const teamMembers = [
   {
-    name: 'Riley Johnson',
-    role: 'Product Manager',
-    online: true,
-    avatarClass: 'bg-indigo-500',
+    name: 'John Doe',
+    role: 'Lead Dev',
+    initials: 'JD',
+    statusColor: '#22C55E',
+    statusBg: 'rgba(34,197,94,0.1)',
+    status: 'Online',
   },
   {
-    name: 'Morgan Davis',
-    role: 'Lead Developer',
-    online: true,
-    avatarClass: 'bg-emerald-500',
+    name: 'Sarah Kim',
+    role: 'Designer',
+    initials: 'SK',
+    statusColor: '#22C55E',
+    statusBg: 'rgba(34,197,94,0.1)',
+    status: 'Online',
   },
   {
-    name: 'Drew Wilson',
-    role: 'UX Designer',
-    online: false,
-    avatarClass: 'bg-violet-500',
+    name: 'Mike Chen',
+    role: 'Backend Dev',
+    initials: 'MC',
+    statusColor: '#F59E0B',
+    statusBg: 'rgba(245,158,11,0.1)',
+    status: 'Away',
   },
   {
-    name: 'Quinn Martinez',
-    role: 'Data Analyst',
-    online: true,
-    avatarClass: 'bg-sky-500',
+    name: 'Lisa Park',
+    role: 'QA Engineer',
+    initials: 'LP',
+    statusColor: '#4B5563',
+    statusBg: 'rgba(255,255,255,0.05)',
+    status: 'Offline',
   },
 ];
 
 const quickActions = [
   {
-    label: 'New Report',
-    subtitle: 'Generate PDF',
-    icon: FilePlus,
-    badgeClass: 'bg-indigo-500/20 text-indigo-400',
+    label: 'Invoice',
+    icon: Mail,
+    bg: 'rgba(99,102,241,0.15)',
+    color: '#6366F1',
   },
   {
-    label: 'Invite User',
-    subtitle: 'Send invite link',
-    icon: UserPlus,
-    badgeClass: 'bg-emerald-500/20 text-emerald-400',
+    label: 'Meeting',
+    icon: Calendar,
+    bg: 'rgba(34,197,94,0.15)',
+    color: '#22C55E',
   },
   {
-    label: 'Export Data',
-    subtitle: 'Download CSV',
-    icon: Download,
-    badgeClass: 'bg-amber-500/20 text-amber-400',
+    label: 'Report',
+    icon: FileText,
+    bg: 'rgba(59,130,246,0.15)',
+    color: '#3B82F6',
   },
-  {
-    label: 'Settings',
-    subtitle: 'Manage preferences',
-    icon: Settings,
-    badgeClass: 'bg-sky-500/20 text-sky-400',
-  },
+  { label: 'Deploy', icon: Zap, bg: 'rgba(245,158,11,0.15)', color: '#F59E0B' },
 ];
-
-const maxRevenue = Math.max(...revenueData.map((d) => d.value));
 
 export function MainContent() {
   return (
-    <div className="space-y-6">
-      {/* Layer 1 — Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-gray-400 text-sm mt-1">
-            Welcome back, here's what's happening today
-          </p>
-        </div>
-        <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
-          <span className="text-gray-400 text-sm">{currentDate}</span>
-          <button className="border border-gray-600 text-gray-300 hover:bg-gray-700 rounded-lg px-4 py-2 flex items-center gap-2 text-sm transition-colors">
-            <Download size={16} />
-            Download Report
-          </button>
-        </div>
-      </div>
-
-      {/* Layer 2 — KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        {kpiCards.map(({ label, icon: Icon, value, trend, trendUp, badgeClass }) => (
-          <div
-            key={label}
-            className="bg-gray-800 border border-gray-700 rounded-2xl p-6 flex flex-col gap-4"
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-gray-400 text-sm">{label}</p>
-                <p className="text-2xl font-bold text-white mt-1">{value}</p>
-              </div>
-              <div className={`p-2.5 rounded-xl ${badgeClass}`}>
-                <Icon size={20} />
-              </div>
-            </div>
-            <div className="flex items-center gap-1.5">
-              {trendUp ? (
-                <TrendingUp size={14} className="text-emerald-400" />
-              ) : (
-                <TrendingDown size={14} className="text-rose-400" />
-              )}
-              <span
-                className={`text-xs font-medium ${trendUp ? 'text-emerald-400' : 'text-rose-400'}`}
+    <Box
+      sx={{
+        display: 'grid',
+        height: '100%',
+        gridTemplateRows: 'auto 1fr 160px',
+        gridTemplateColumns: '1fr 280px',
+        gap: 1.5,
+      }}
+    >
+      {/* ── Row 1: Header + KPI chips ── */}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gridColumn: '1 / -1',
+        }}
+      >
+        <Box>
+          <Typography variant="h5" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
+            Dashboard
+          </Typography>
+          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+            Welcome back, John
+          </Typography>
+        </Box>
+        <Stack direction="row" spacing={1.5} alignItems="center">
+          {kpiCards.map((k) => (
+            <Card
+              key={k.label}
+              sx={{
+                px: 2,
+                py: 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1.5,
+                minWidth: 140,
+              }}
+            >
+              <Box
+                sx={{ p: 1, borderRadius: 1.5, bgcolor: k.bg, display: 'flex' }}
               >
-                {trend}
-              </span>
-              <span className="text-xs text-gray-500">vs last week</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Layer 3 — Revenue Overview + Top Channels */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Revenue Overview */}
-        <div className="lg:col-span-2 bg-gray-800 border border-gray-700 rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-base font-semibold text-white">Revenue Overview</h2>
-              <p className="text-gray-400 text-sm mt-0.5">This week</p>
-            </div>
-          </div>
-          <div className="flex items-end gap-2 h-32">
-            {revenueData.map(({ day, value }) => (
-              <div key={day} className="flex flex-col items-center gap-1.5 flex-1">
-                <div className="w-full flex items-end" style={{ height: '100%' }}>
-                  <div
-                    className="bg-indigo-500 rounded-t-md w-full"
-                    style={{ height: `${(value / maxRevenue) * 100}%` }}
-                  />
-                </div>
-                <span className="text-gray-400 text-xs">{day}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Top Channels */}
-        <div className="lg:col-span-1 bg-gray-800 border border-gray-700 rounded-2xl p-6">
-          <h2 className="text-base font-semibold text-white mb-5">Top Channels</h2>
-          <div className="space-y-4">
-            {channels.map(({ name, pct, colorClass }) => (
-              <div key={name}>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-sm text-gray-300">{name}</span>
-                  <span className="text-sm text-gray-400">{pct}%</span>
-                </div>
-                <div className="h-1.5 rounded-full bg-gray-700">
-                  <div
-                    className={`h-1.5 rounded-full ${colorClass}`}
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Layer 4 — Recent Transactions + Active Team */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        {/* Recent Transactions */}
-        <div className="lg:col-span-3 bg-gray-800 border border-gray-700 rounded-2xl p-6">
-          <h2 className="text-base font-semibold text-white mb-5">Recent Transactions</h2>
-          <div className="space-y-3">
-            {transactions.map(({ name, type, amount, status, avatarClass }) => (
-              <div
-                key={name}
-                className="flex items-center gap-3 py-2 border-b border-gray-700 last:border-0"
-              >
-                <div
-                  className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold flex-shrink-0 ${avatarClass}`}
+                <k.icon size={16} color={k.color} />
+              </Box>
+              <Box>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'text.secondary',
+                    display: 'block',
+                    lineHeight: 1.2,
+                  }}
                 >
-                  {name[0]}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-white font-medium truncate">{name}</p>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-gray-700 text-gray-300">
-                    {type}
-                  </span>
-                </div>
-                <div className="text-right flex-shrink-0">
-                  <p className="text-sm text-white font-medium">{amount}</p>
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusChipClass[status]}`}
+                  {k.label}
+                </Typography>
+                <Stack direction="row" alignItems="center" spacing={0.5}>
+                  <Typography
+                    sx={{
+                      fontSize: '0.875rem',
+                      fontWeight: 700,
+                      color: 'text.primary',
+                    }}
                   >
-                    {status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Active Team Members */}
-        <div className="lg:col-span-2 bg-gray-800 border border-gray-700 rounded-2xl p-6">
-          <h2 className="text-base font-semibold text-white mb-5">Active Team</h2>
-          <div className="space-y-3">
-            {teamMembers.map(({ name, role, online, avatarClass }) => (
-              <div
-                key={name}
-                className="flex items-center gap-3 p-3 bg-gray-700/50 rounded-xl"
-              >
-                <div className="relative flex-shrink-0">
-                  <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold ${avatarClass}`}
+                    {k.value}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.65rem',
+                      color: k.up ? '#22C55E' : '#EF4444',
+                      fontWeight: 600,
+                    }}
                   >
-                    {name[0]}
-                  </div>
-                  <span
-                    className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-gray-800 ${online ? 'bg-emerald-400' : 'bg-amber-400'}`}
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm text-white font-medium truncate">{name}</p>
-                  <p className="text-xs text-gray-400 truncate">{role}</p>
-                </div>
-                <span className={`text-xs ${online ? 'text-emerald-400' : 'text-amber-400'}`}>
-                  {online ? 'Online' : 'Away'}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Layer 5 — Quick Actions */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {quickActions.map(({ label, subtitle, icon: Icon, badgeClass }) => (
-          <button
-            key={label}
-            className="bg-gray-800 border border-gray-700 rounded-2xl p-5 flex flex-col items-center gap-3 cursor-pointer hover:bg-gray-700 transition-colors text-center"
+                    {k.trend}
+                  </Typography>
+                </Stack>
+              </Box>
+            </Card>
+          ))}
+          <Button
+            variant="contained"
+            size="small"
+            startIcon={<Download size={14} />}
+            sx={{ flexShrink: 0 }}
           >
-            <div className={`p-3 rounded-xl ${badgeClass}`}>
-              <Icon size={22} />
-            </div>
-            <div>
-              <p className="text-sm text-gray-300 font-medium">{label}</p>
-              <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
+            Export
+          </Button>
+        </Stack>
+      </Box>
+
+        {/* Left col top: Revenue Chart */}
+        <Card sx={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          <CardContent sx={{ p: 2, pb: '8px !important', flexShrink: 0 }}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Box>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  Revenue Overview
+                </Typography>
+                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                  Jan – Dec 2026
+                </Typography>
+              </Box>
+            </Stack>
+          </CardContent>
+          <Box
+            sx={{
+              flexGrow: 1,
+              px: 2,
+              pb: 2,
+              display: 'flex',
+              alignItems: 'flex-end',
+              gap: 1,
+              minHeight: 0,
+            }}
+          >
+            {revenueData.map((d) => (
+              <Box
+                key={d.month}
+                sx={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 0.25,
+                  height: '100%',
+                }}
+              >
+                <Box
+                  sx={{
+                    flex: 1,
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: `${d.value}%`,
+                      bgcolor: 'primary.main',
+                      borderRadius: '3px 3px 0 0',
+                      minHeight: 2,
+                      '&:hover': { bgcolor: 'primary.light' },
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{ fontSize: '0.6rem', color: 'text.secondary' }}
+                >
+                  {d.month}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Card>
+
+        {/* Right col: stacked panels */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1.5,
+            minHeight: 0,
+            overflow: 'auto',
+          }}
+        >
+          {/* Channels */}
+          <Card sx={{ flexShrink: 0 }}>
+            <CardContent sx={{ p: 2, pb: '8px !important' }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5 }}>
+                Channels
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                {channels.map((ch) => (
+                  <Box key={ch.label}>
+                    <Stack
+                      direction="row"
+                      justifyContent="space-between"
+                      sx={{ mb: 0.25 }}
+                    >
+                      <Typography variant="caption">{ch.label}</Typography>
+                      <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                        {ch.value}%
+                      </Typography>
+                    </Stack>
+                    <LinearProgress
+                      variant="determinate"
+                      value={ch.value}
+                      sx={{
+                        height: 5,
+                        '& .MuiLinearProgress-bar': { bgcolor: ch.color },
+                      }}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+
+          {/* Team */}
+          <Card sx={{ flexShrink: 0 }}>
+            <CardContent sx={{ p: 2, pb: '8px !important' }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                Team
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+                {teamMembers.map((m) => (
+                  <Stack
+                    key={m.name}
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Avatar
+                        sx={{
+                          width: 28,
+                          height: 28,
+                          bgcolor: 'primary.main',
+                          fontSize: '0.65rem',
+                        }}
+                      >
+                        {m.initials}
+                      </Avatar>
+                      <Box>
+                        <Typography
+                          sx={{
+                            fontSize: '0.75rem',
+                            fontWeight: 500,
+                            lineHeight: 1.2,
+                          }}
+                        >
+                          {m.name}
+                        </Typography>
+                        <Typography
+                          sx={{ fontSize: '0.65rem', color: 'text.secondary' }}
+                        >
+                          {m.role}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                    <Chip
+                      size="small"
+                      label={m.status}
+                      sx={{
+                        height: 18,
+                        fontSize: '0.6rem',
+                        fontWeight: 600,
+                        bgcolor: m.statusBg,
+                        color: m.statusColor,
+                        '& .MuiChip-label': { px: 0.75 },
+                      }}
+                    />
+                  </Stack>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+
+          {/* Quick Actions */}
+          <Card sx={{ flexShrink: 0 }}>
+            <CardContent sx={{ p: 2, pb: '8px !important' }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                Quick Actions
+              </Typography>
+              <Box
+                sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}
+              >
+                {quickActions.map((a) => (
+                  <Box
+                    key={a.label}
+                    sx={{
+                      p: 1.25,
+                      borderRadius: 1.5,
+                      bgcolor: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
+                      cursor: 'pointer',
+                      '&:hover': { bgcolor: 'rgba(255,255,255,0.07)' },
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        p: 0.75,
+                        borderRadius: 1,
+                        bgcolor: a.bg,
+                        display: 'flex',
+                      }}
+                    >
+                      <a.icon size={14} color={a.color} />
+                    </Box>
+                    <Typography sx={{ fontSize: '0.72rem', fontWeight: 600 }}>
+                      {a.label}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+
+        {/* Left col bottom: Transactions */}
+        <Card sx={{ minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <CardContent sx={{ p: 2, pb: '8px !important', flexShrink: 0 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              Recent Transactions
+            </Typography>
+          </CardContent>
+          <TableContainer sx={{ flexGrow: 1, overflow: 'auto' }}>
+            <Table size="small" stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Customer</TableCell>
+                  <TableCell>Amount</TableCell>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {transactions.map((tx) => (
+                  <TableRow key={tx.id}>
+                    <TableCell>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontFamily: 'monospace',
+                          color: 'text.secondary',
+                        }}
+                      >
+                        {tx.id}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <Avatar
+                          sx={{
+                            width: 24,
+                            height: 24,
+                            bgcolor: 'primary.main',
+                            fontSize: '0.6rem',
+                          }}
+                        >
+                          {tx.name
+                            .split(' ')
+                            .map((n) => n[0])
+                            .join('')}
+                        </Avatar>
+                        <Typography variant="caption" sx={{ fontWeight: 500 }}>
+                          {tx.name}
+                        </Typography>
+                      </Stack>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                        {tx.amount}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant="caption"
+                        sx={{ color: 'text.secondary' }}
+                      >
+                        {tx.date}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        size="small"
+                        label={
+                          tx.status.charAt(0).toUpperCase() + tx.status.slice(1)
+                        }
+                        sx={{
+                          height: 18,
+                          fontSize: '0.6rem',
+                          fontWeight: 600,
+                          ...statusSx[tx.status],
+                          '& .MuiChip-label': { px: 0.75 },
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <IconButton
+                        size="small"
+                        sx={{ p: 0.25, color: 'text.secondary' }}
+                      >
+                        <MoreHorizontal size={14} />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Card>
+    </Box>
   );
 }

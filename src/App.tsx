@@ -1,19 +1,55 @@
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { MainContent } from './components/MainContent';
 import { Footer } from './components/Footer';
 
+export const DRAWER_WIDTH = 260;
+export const APPBAR_HEIGHT = 64;
+
 export function App() {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Box
+      sx={{
+        display: 'flex',
+        height: '100vh',
+        overflow: 'hidden',
+        bgcolor: 'background.default',
+      }}
+    >
       <Navbar />
-      <Sidebar />
-      <div className="ml-64 pt-16 flex flex-col min-h-screen">
-        <main className="flex-1 p-6">
+      <Sidebar open={isDesktop} />
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100vh',
+          overflow: 'hidden',
+          pt: `${APPBAR_HEIGHT}px`,
+          minWidth: 0,
+        }}
+      >
+        <Box
+          sx={{
+            flexGrow: 1,
+            overflow: 'hidden',
+            p: 3,
+            minHeight: 0,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           <MainContent />
-        </main>
+        </Box>
         <Footer />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
