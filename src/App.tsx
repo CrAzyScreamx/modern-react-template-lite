@@ -33,11 +33,6 @@ export function App() {
           height: '100vh',
           overflow: 'hidden',
           pt: `${APPBAR_HEIGHT}px`,
-          ml: isDesktop ? `${DRAWER_WIDTH}px` : 0,
-          transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-          }),
           minWidth: 0,
         }}
       >
