@@ -1,19 +1,38 @@
+import Box from '@mui/material/Box';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { MainContent } from './components/MainContent';
 import { Footer } from './components/Footer';
 
+const DRAWER_WIDTH = 260;
+const APPBAR_HEIGHT = 64;
+
 export function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Box
+      sx={{
+        display: 'flex',
+        minHeight: '100vh',
+        bgcolor: 'background.default',
+      }}
+    >
       <Navbar />
       <Sidebar />
-      <div className="ml-64 pt-16 flex flex-col min-h-screen">
-        <main className="flex-1 p-6">
+      <Box
+        sx={{
+          flexGrow: 1,
+          ml: `${DRAWER_WIDTH}px`,
+          pt: `${APPBAR_HEIGHT}px`,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+        }}
+      >
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <MainContent />
-        </main>
+        </Box>
         <Footer />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

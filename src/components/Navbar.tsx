@@ -1,26 +1,64 @@
-import { Box, Home, Settings, Info } from 'lucide-react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import { Box as BoxIcon, Search, Bell } from 'lucide-react';
 
 export function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-gray-900 flex items-center px-6 justify-between">
-      <div className="flex items-center gap-2 text-white font-semibold text-lg">
-        <Box size={24} />
-        <span>MyApp</span>
-      </div>
-      <div className="flex items-center gap-6">
-        <a href="#" className="flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors">
-          <Home size={16} />
-          <span>Home</span>
-        </a>
-        <a href="#" className="flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors">
-          <Settings size={16} />
-          <span>Settings</span>
-        </a>
-        <a href="#" className="flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors">
-          <Info size={16} />
-          <span>About</span>
-        </a>
-      </div>
-    </nav>
+    <AppBar position="fixed" sx={{ zIndex: (t) => t.zIndex.drawer + 1 }}>
+      <Toolbar sx={{ justifyContent: 'space-between', minHeight: 64, px: 3 }}>
+        {/* Left: logo */}
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <BoxIcon size={24} color="#6366F1" />
+          <Typography variant="h5" sx={{ fontWeight: 700 }}>
+            MyApp
+          </Typography>
+        </Stack>
+
+        {/* Center: search */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            bgcolor: 'rgba(255,255,255,0.05)',
+            borderRadius: 2,
+            px: 2,
+            py: 0.5,
+            width: 320,
+          }}
+        >
+          <Search size={18} style={{ color: '#9CA3AF', marginRight: 8 }} />
+          <InputBase
+            placeholder="Search..."
+            sx={{ color: 'text.primary', flex: 1, fontSize: '0.875rem' }}
+          />
+        </Box>
+
+        {/* Right: bell + avatar */}
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <IconButton sx={{ color: 'text.secondary' }}>
+            <Badge badgeContent={3} color="error">
+              <Bell size={20} />
+            </Badge>
+          </IconButton>
+          <Avatar
+            sx={{
+              width: 32,
+              height: 32,
+              bgcolor: 'primary.main',
+              fontSize: '0.875rem',
+            }}
+          >
+            JD
+          </Avatar>
+        </Stack>
+      </Toolbar>
+    </AppBar>
   );
 }

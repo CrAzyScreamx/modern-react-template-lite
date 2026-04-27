@@ -1,358 +1,586 @@
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid2';
+import Chip from '@mui/material/Chip';
+import Button from '@mui/material/Button';
+import LinearProgress from '@mui/material/LinearProgress';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
 import {
   Users,
   DollarSign,
   Activity,
   TrendingUp,
-  TrendingDown,
   Download,
-  FilePlus,
-  UserPlus,
-  Settings,
+  ArrowUpRight,
+  ArrowDownRight,
+  MoreHorizontal,
+  Mail,
+  Calendar,
+  FileText,
+  Zap,
 } from 'lucide-react';
-
-const currentDate = new Date().toLocaleDateString('en-US', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
 
 const kpiCards = [
   {
     label: 'Total Users',
-    icon: Users,
-    value: '12,847',
-    trend: '+8.2%',
+    value: '1,234',
+    trend: '+12.5%',
     trendUp: true,
-    badgeClass: 'bg-indigo-500/20 text-indigo-400',
+    icon: Users,
+    iconBg: 'rgba(99,102,241,0.15)',
+    iconColor: '#6366F1',
   },
   {
     label: 'Revenue',
-    icon: DollarSign,
-    value: '$94,320',
-    trend: '+14.1%',
+    value: '$45,678',
+    trend: '+8.2%',
     trendUp: true,
-    badgeClass: 'bg-emerald-500/20 text-emerald-400',
+    icon: DollarSign,
+    iconBg: 'rgba(34,197,94,0.15)',
+    iconColor: '#22C55E',
   },
   {
     label: 'Active Sessions',
-    icon: Activity,
-    value: '3,291',
-    trend: '-3.4%',
+    value: '892',
+    trend: '-3.1%',
     trendUp: false,
-    badgeClass: 'bg-amber-500/20 text-amber-400',
+    icon: Activity,
+    iconBg: 'rgba(245,158,11,0.15)',
+    iconColor: '#F59E0B',
   },
   {
-    label: 'Growth Rate',
-    icon: TrendingUp,
-    value: '24.7%',
-    trend: '+5.7%',
+    label: 'Growth',
+    value: '+12.5%',
+    trend: '+4.6%',
     trendUp: true,
-    badgeClass: 'bg-sky-500/20 text-sky-400',
+    icon: TrendingUp,
+    iconBg: 'rgba(59,130,246,0.15)',
+    iconColor: '#3B82F6',
   },
 ];
 
 const revenueData = [
-  { day: 'Mon', value: 42 },
-  { day: 'Tue', value: 68 },
-  { day: 'Wed', value: 55 },
-  { day: 'Thu', value: 80 },
-  { day: 'Fri', value: 73 },
-  { day: 'Sat', value: 91 },
-  { day: 'Sun', value: 64 },
+  { month: 'Jan', value: 45, amount: '$12k' },
+  { month: 'Feb', value: 62, amount: '$18k' },
+  { month: 'Mar', value: 55, amount: '$15k' },
+  { month: 'Apr', value: 78, amount: '$24k' },
+  { month: 'May', value: 85, amount: '$28k' },
+  { month: 'Jun', value: 70, amount: '$21k' },
+  { month: 'Jul', value: 92, amount: '$32k' },
+  { month: 'Aug', value: 68, amount: '$20k' },
+  { month: 'Sep', value: 80, amount: '$26k' },
+  { month: 'Oct', value: 75, amount: '$23k' },
+  { month: 'Nov', value: 88, amount: '$30k' },
+  { month: 'Dec', value: 95, amount: '$35k' },
 ];
 
 const channels = [
-  { name: 'Organic', pct: 42, colorClass: 'bg-emerald-500' },
-  { name: 'Direct', pct: 28, colorClass: 'bg-sky-500' },
-  { name: 'Referral', pct: 18, colorClass: 'bg-violet-500' },
-  { name: 'Social', pct: 12, colorClass: 'bg-amber-500' },
+  { channel: 'Organic Search', value: 45, color: '#6366F1' },
+  { channel: 'Direct', value: 28, color: '#22C55E' },
+  { channel: 'Referral', value: 18, color: '#F59E0B' },
+  { channel: 'Social Media', value: 9, color: '#3B82F6' },
 ];
 
 const transactions = [
   {
-    name: 'Alex Morgan',
-    type: 'Subscription',
-    amount: '$129.00',
-    status: 'Completed',
-    avatarClass: 'bg-indigo-500',
+    id: '#TXN-1234',
+    customer: 'Alice Johnson',
+    email: 'alice@example.com',
+    amount: '$1,250.00',
+    date: 'Apr 23, 2026',
+    status: 'completed' as const,
   },
   {
-    name: 'Sam Chen',
-    type: 'One-time',
-    amount: '$49.99',
-    status: 'Completed',
-    avatarClass: 'bg-emerald-500',
+    id: '#TXN-1235',
+    customer: 'Bob Smith',
+    email: 'bob@example.com',
+    amount: '$890.00',
+    date: 'Apr 22, 2026',
+    status: 'pending' as const,
   },
   {
-    name: 'Jordan Lee',
-    type: 'Refund',
-    amount: '-$29.00',
-    status: 'Pending',
-    avatarClass: 'bg-amber-500',
+    id: '#TXN-1236',
+    customer: 'Carol White',
+    email: 'carol@example.com',
+    amount: '$2,100.00',
+    date: 'Apr 21, 2026',
+    status: 'completed' as const,
   },
   {
-    name: 'Taylor Kim',
-    type: 'Subscription',
-    amount: '$129.00',
-    status: 'Completed',
-    avatarClass: 'bg-sky-500',
+    id: '#TXN-1237',
+    customer: 'David Brown',
+    email: 'david@example.com',
+    amount: '$450.00',
+    date: 'Apr 20, 2026',
+    status: 'failed' as const,
   },
   {
-    name: 'Casey Park',
-    type: 'One-time',
-    amount: '$79.00',
-    status: 'Failed',
-    avatarClass: 'bg-rose-500',
+    id: '#TXN-1238',
+    customer: 'Eva Martinez',
+    email: 'eva@example.com',
+    amount: '$3,200.00',
+    date: 'Apr 19, 2026',
+    status: 'completed' as const,
   },
 ];
 
-const statusChipClass: Record<string, string> = {
-  Completed: 'bg-emerald-500/20 text-emerald-400',
-  Pending: 'bg-amber-500/20 text-amber-400',
-  Failed: 'bg-rose-500/20 text-rose-400',
+const statusStyle = {
+  completed: { bgcolor: 'rgba(34,197,94,0.1)', color: '#22C55E' },
+  pending: { bgcolor: 'rgba(245,158,11,0.1)', color: '#F59E0B' },
+  failed: { bgcolor: 'rgba(239,68,68,0.1)', color: '#EF4444' },
 };
 
 const teamMembers = [
   {
-    name: 'Riley Johnson',
-    role: 'Product Manager',
-    online: true,
-    avatarClass: 'bg-indigo-500',
-  },
-  {
-    name: 'Morgan Davis',
+    name: 'John Doe',
     role: 'Lead Developer',
-    online: true,
-    avatarClass: 'bg-emerald-500',
+    initials: 'JD',
+    status: 'Online',
+    statusColor: '#22C55E',
+    statusBg: 'rgba(34,197,94,0.1)',
   },
   {
-    name: 'Drew Wilson',
-    role: 'UX Designer',
-    online: false,
-    avatarClass: 'bg-violet-500',
+    name: 'Sarah Kim',
+    role: 'UI Designer',
+    initials: 'SK',
+    status: 'Online',
+    statusColor: '#22C55E',
+    statusBg: 'rgba(34,197,94,0.1)',
   },
   {
-    name: 'Quinn Martinez',
-    role: 'Data Analyst',
-    online: true,
-    avatarClass: 'bg-sky-500',
+    name: 'Mike Chen',
+    role: 'Backend Dev',
+    initials: 'MC',
+    status: 'Away',
+    statusColor: '#F59E0B',
+    statusBg: 'rgba(245,158,11,0.1)',
+  },
+  {
+    name: 'Lisa Park',
+    role: 'QA Engineer',
+    initials: 'LP',
+    status: 'Offline',
+    statusColor: '#4B5563',
+    statusBg: 'rgba(255,255,255,0.05)',
   },
 ];
 
 const quickActions = [
   {
-    label: 'New Report',
-    subtitle: 'Generate PDF',
-    icon: FilePlus,
-    badgeClass: 'bg-indigo-500/20 text-indigo-400',
+    label: 'Send Invoice',
+    icon: Mail,
+    iconBg: 'rgba(99,102,241,0.15)',
+    iconColor: '#6366F1',
   },
   {
-    label: 'Invite User',
-    subtitle: 'Send invite link',
-    icon: UserPlus,
-    badgeClass: 'bg-emerald-500/20 text-emerald-400',
+    label: 'Schedule Meeting',
+    icon: Calendar,
+    iconBg: 'rgba(34,197,94,0.15)',
+    iconColor: '#22C55E',
   },
   {
-    label: 'Export Data',
-    subtitle: 'Download CSV',
-    icon: Download,
-    badgeClass: 'bg-amber-500/20 text-amber-400',
+    label: 'Create Report',
+    icon: FileText,
+    iconBg: 'rgba(59,130,246,0.15)',
+    iconColor: '#3B82F6',
   },
   {
-    label: 'Settings',
-    subtitle: 'Manage preferences',
-    icon: Settings,
-    badgeClass: 'bg-sky-500/20 text-sky-400',
+    label: 'Quick Deploy',
+    icon: Zap,
+    iconBg: 'rgba(245,158,11,0.15)',
+    iconColor: '#F59E0B',
   },
 ];
 
-const maxRevenue = Math.max(...revenueData.map((d) => d.value));
-
 export function MainContent() {
   return (
-    <div className="space-y-6">
-      {/* Layer 1 — Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-gray-400 text-sm mt-1">
-            Welcome back, here's what's happening today
-          </p>
-        </div>
-        <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
-          <span className="text-gray-400 text-sm">{currentDate}</span>
-          <button className="border border-gray-600 text-gray-300 hover:bg-gray-700 rounded-lg px-4 py-2 flex items-center gap-2 text-sm transition-colors">
-            <Download size={16} />
-            Download Report
-          </button>
-        </div>
-      </div>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      {/* Layer 1 — Header */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+        }}
+      >
+        <Box>
+          <Typography variant="h1">Dashboard</Typography>
+          <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+            Welcome back, John. Here&apos;s what&apos;s happening.
+          </Typography>
+        </Box>
+        <Button variant="contained" startIcon={<Download size={18} />}>
+          Export Report
+        </Button>
+      </Box>
 
       {/* Layer 2 — KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        {kpiCards.map(({ label, icon: Icon, value, trend, trendUp, badgeClass }) => (
-          <div
-            key={label}
-            className="bg-gray-800 border border-gray-700 rounded-2xl p-6 flex flex-col gap-4"
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-gray-400 text-sm">{label}</p>
-                <p className="text-2xl font-bold text-white mt-1">{value}</p>
-              </div>
-              <div className={`p-2.5 rounded-xl ${badgeClass}`}>
-                <Icon size={20} />
-              </div>
-            </div>
-            <div className="flex items-center gap-1.5">
-              {trendUp ? (
-                <TrendingUp size={14} className="text-emerald-400" />
-              ) : (
-                <TrendingDown size={14} className="text-rose-400" />
-              )}
-              <span
-                className={`text-xs font-medium ${trendUp ? 'text-emerald-400' : 'text-rose-400'}`}
-              >
-                {trend}
-              </span>
-              <span className="text-xs text-gray-500">vs last week</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Layer 3 — Revenue Overview + Top Channels */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Revenue Overview */}
-        <div className="lg:col-span-2 bg-gray-800 border border-gray-700 rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-base font-semibold text-white">Revenue Overview</h2>
-              <p className="text-gray-400 text-sm mt-0.5">This week</p>
-            </div>
-          </div>
-          <div className="flex items-end gap-2 h-32">
-            {revenueData.map(({ day, value }) => (
-              <div key={day} className="flex flex-col items-center gap-1.5 flex-1">
-                <div className="w-full flex items-end" style={{ height: '100%' }}>
-                  <div
-                    className="bg-indigo-500 rounded-t-md w-full"
-                    style={{ height: `${(value / maxRevenue) * 100}%` }}
-                  />
-                </div>
-                <span className="text-gray-400 text-xs">{day}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Top Channels */}
-        <div className="lg:col-span-1 bg-gray-800 border border-gray-700 rounded-2xl p-6">
-          <h2 className="text-base font-semibold text-white mb-5">Top Channels</h2>
-          <div className="space-y-4">
-            {channels.map(({ name, pct, colorClass }) => (
-              <div key={name}>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-sm text-gray-300">{name}</span>
-                  <span className="text-sm text-gray-400">{pct}%</span>
-                </div>
-                <div className="h-1.5 rounded-full bg-gray-700">
-                  <div
-                    className={`h-1.5 rounded-full ${colorClass}`}
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Layer 4 — Recent Transactions + Active Team */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-        {/* Recent Transactions */}
-        <div className="lg:col-span-3 bg-gray-800 border border-gray-700 rounded-2xl p-6">
-          <h2 className="text-base font-semibold text-white mb-5">Recent Transactions</h2>
-          <div className="space-y-3">
-            {transactions.map(({ name, type, amount, status, avatarClass }) => (
-              <div
-                key={name}
-                className="flex items-center gap-3 py-2 border-b border-gray-700 last:border-0"
-              >
-                <div
-                  className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold flex-shrink-0 ${avatarClass}`}
+      <Grid container spacing={3}>
+        {kpiCards.map((card) => (
+          <Grid key={card.label} size={{ xs: 12, sm: 6, xl: 3 }}>
+            <Card>
+              <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                  }}
                 >
-                  {name[0]}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-white font-medium truncate">{name}</p>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-gray-700 text-gray-300">
-                    {type}
-                  </span>
-                </div>
-                <div className="text-right flex-shrink-0">
-                  <p className="text-sm text-white font-medium">{amount}</p>
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusChipClass[status]}`}
+                  <Box>
+                    <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                      {card.label}
+                    </Typography>
+                    <Typography variant="h2" sx={{ color: 'text.primary' }}>
+                      {card.value}
+                    </Typography>
+                    <Chip
+                      size="small"
+                      icon={
+                        card.trendUp ? (
+                          <ArrowUpRight size={14} />
+                        ) : (
+                          <ArrowDownRight size={14} />
+                        )
+                      }
+                      label={card.trend}
+                      sx={{
+                        mt: 1.5,
+                        bgcolor: card.trendUp
+                          ? 'rgba(34,197,94,0.1)'
+                          : 'rgba(239,68,68,0.1)',
+                        color: card.trendUp ? 'success.main' : 'error.main',
+                        '& .MuiChip-icon': { color: 'inherit' },
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 2,
+                      bgcolor: card.iconBg,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
                   >
-                    {status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Active Team Members */}
-        <div className="lg:col-span-2 bg-gray-800 border border-gray-700 rounded-2xl p-6">
-          <h2 className="text-base font-semibold text-white mb-5">Active Team</h2>
-          <div className="space-y-3">
-            {teamMembers.map(({ name, role, online, avatarClass }) => (
-              <div
-                key={name}
-                className="flex items-center gap-3 p-3 bg-gray-700/50 rounded-xl"
-              >
-                <div className="relative flex-shrink-0">
-                  <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold ${avatarClass}`}
-                  >
-                    {name[0]}
-                  </div>
-                  <span
-                    className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-gray-800 ${online ? 'bg-emerald-400' : 'bg-amber-400'}`}
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm text-white font-medium truncate">{name}</p>
-                  <p className="text-xs text-gray-400 truncate">{role}</p>
-                </div>
-                <span className={`text-xs ${online ? 'text-emerald-400' : 'text-amber-400'}`}>
-                  {online ? 'Online' : 'Away'}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Layer 5 — Quick Actions */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {quickActions.map(({ label, subtitle, icon: Icon, badgeClass }) => (
-          <button
-            key={label}
-            className="bg-gray-800 border border-gray-700 rounded-2xl p-5 flex flex-col items-center gap-3 cursor-pointer hover:bg-gray-700 transition-colors text-center"
-          >
-            <div className={`p-3 rounded-xl ${badgeClass}`}>
-              <Icon size={22} />
-            </div>
-            <div>
-              <p className="text-sm text-gray-300 font-medium">{label}</p>
-              <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>
-            </div>
-          </button>
+                    <card.icon size={24} color={card.iconColor} />
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
         ))}
-      </div>
-    </div>
+      </Grid>
+
+      {/* Layer 3 — Revenue Chart + Traffic Channels */}
+      <Grid container spacing={3}>
+        {/* Revenue */}
+        <Grid size={{ xs: 12, lg: 8 }}>
+          <Card>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h5" sx={{ mb: 0.5 }}>
+                Revenue Overview
+              </Typography>
+              <Typography variant="subtitle2">Jan – Dec 2026</Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  gap: 1.5,
+                  height: 200,
+                  mt: 3,
+                }}
+              >
+                {revenueData.map((d) => (
+                  <Box
+                    key={d.month}
+                    sx={{
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 0.5,
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      sx={{ color: 'text.secondary', fontSize: '0.65rem' }}
+                    >
+                      {d.amount}
+                    </Typography>
+                    <Box
+                      sx={{
+                        width: '100%',
+                        height: `${d.value}%`,
+                        bgcolor: 'primary.main',
+                        borderRadius: '4px 4px 0 0',
+                        minHeight: 4,
+                        transition: 'background-color 0.2s',
+                        '&:hover': { bgcolor: 'primary.light' },
+                      }}
+                    />
+                    <Typography
+                      variant="caption"
+                      sx={{ color: 'text.secondary', fontSize: '0.65rem' }}
+                    >
+                      {d.month}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Channels */}
+        <Grid size={{ xs: 12, lg: 4 }}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h5" sx={{ mb: 0.5 }}>
+                Traffic Channels
+              </Typography>
+              <Typography variant="subtitle2" sx={{ mb: 3 }}>
+                This month
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                {channels.map((ch) => (
+                  <Box key={ch.channel}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        mb: 1,
+                      }}
+                    >
+                      <Typography variant="body1">{ch.channel}</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                        {ch.value}%
+                      </Typography>
+                    </Box>
+                    <LinearProgress
+                      variant="determinate"
+                      value={ch.value}
+                      sx={{ '& .MuiLinearProgress-bar': { bgcolor: ch.color } }}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* Layer 4 — Transactions Table */}
+      <Card>
+        <CardContent sx={{ p: 3 }}>
+          <Typography variant="h5" sx={{ mb: 3 }}>
+            Recent Transactions
+          </Typography>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Transaction ID</TableCell>
+                  <TableCell>Customer</TableCell>
+                  <TableCell>Amount</TableCell>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell align="right">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {transactions.map((tx) => (
+                  <TableRow
+                    key={tx.id}
+                    sx={{ '&:last-child td': { border: 0 } }}
+                  >
+                    <TableCell>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'text.secondary',
+                          fontFamily: 'monospace',
+                        }}
+                      >
+                        {tx.id}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Stack direction="row" alignItems="center" spacing={1.5}>
+                        <Avatar
+                          sx={{
+                            width: 32,
+                            height: 32,
+                            bgcolor: 'primary.main',
+                            fontSize: '0.75rem',
+                          }}
+                        >
+                          {tx.customer
+                            .split(' ')
+                            .map((n) => n[0])
+                            .join('')}
+                        </Avatar>
+                        <Box>
+                          <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                            {tx.customer}
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            sx={{ color: 'text.secondary' }}
+                          >
+                            {tx.email}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                        {tx.amount}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: 'text.secondary' }}
+                      >
+                        {tx.date}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        size="small"
+                        label={
+                          tx.status.charAt(0).toUpperCase() + tx.status.slice(1)
+                        }
+                        sx={{
+                          bgcolor: statusStyle[tx.status].bgcolor,
+                          color: statusStyle[tx.status].color,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <IconButton size="small" sx={{ color: 'text.secondary' }}>
+                        <MoreHorizontal size={16} />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
+      </Card>
+
+      {/* Layer 5 — Team Members + Quick Actions */}
+      <Grid container spacing={3}>
+        {/* Team */}
+        <Grid size={{ xs: 12, lg: 6 }}>
+          <Card>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h5" sx={{ mb: 3 }}>
+                Team Members
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {teamMembers.map((m) => (
+                  <Stack
+                    key={m.name}
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Stack direction="row" alignItems="center" spacing={1.5}>
+                      <Avatar
+                        sx={{ width: 36, height: 36, bgcolor: 'primary.main' }}
+                      >
+                        {m.initials}
+                      </Avatar>
+                      <Box>
+                        <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                          {m.name}
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          sx={{ color: 'text.secondary' }}
+                        >
+                          {m.role}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                    <Chip
+                      size="small"
+                      label={m.status}
+                      sx={{ bgcolor: m.statusBg, color: m.statusColor }}
+                    />
+                  </Stack>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Quick Actions */}
+        <Grid size={{ xs: 12, lg: 6 }}>
+          <Card>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h5" sx={{ mb: 3 }}>
+                Quick Actions
+              </Typography>
+              <Grid container spacing={2}>
+                {quickActions.map((action) => (
+                  <Grid key={action.label} size={{ xs: 6 }}>
+                    <Box
+                      sx={{
+                        p: 2.5,
+                        borderRadius: 2,
+                        bgcolor: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s',
+                        '&:hover': {
+                          bgcolor: 'rgba(255,255,255,0.06)',
+                          transform: 'translateY(-2px)',
+                        },
+                        textAlign: 'center',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          width: 44,
+                          height: 44,
+                          borderRadius: 2,
+                          bgcolor: action.iconBg,
+                          mx: 'auto',
+                          mb: 1.5,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <action.icon size={22} color={action.iconColor} />
+                      </Box>
+                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                        {action.label}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
