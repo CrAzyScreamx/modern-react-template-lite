@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { MainContent } from './components/MainContent';
 import { ReportsContent } from './components/ReportsContent';
+import { AnalyticsContent } from './components/AnalyticsContent';
 import { Footer } from './components/Footer';
 
 export const DRAWER_WIDTH = 260;
@@ -49,7 +50,7 @@ export function App() {
             flexDirection: 'column',
           }}
         >
-          {activePage === 'Reports' ? <ReportsContent /> : <MainContent />}
+          {activePage === 'Analytics' ? <AnalyticsContent /> : activePage === 'Reports' ? <ReportsContent /> : <MainContent />}
         </Box>
         <Footer />
       </Box>
