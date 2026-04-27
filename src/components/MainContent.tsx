@@ -278,7 +278,7 @@ export function MainContent() {
         sx={{
           display: 'grid',
           gridTemplateColumns: '1fr 280px',
-          gridTemplateRows: '1fr auto',
+          gridTemplateRows: '1fr 160px',
           gap: 1.5,
           flexGrow: 1,
           minHeight: 0,
@@ -502,7 +502,7 @@ export function MainContent() {
         </Box>
 
         {/* Left col bottom: Transactions */}
-        <Card sx={{ minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+        <Card sx={{ minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <CardContent sx={{ p: 2, pb: '8px !important', flexShrink: 0 }}>
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
               Recent Transactions
