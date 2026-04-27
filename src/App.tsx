@@ -1,34 +1,40 @@
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { MainContent } from './components/MainContent';
 import { Footer } from './components/Footer';
 
-const DRAWER_WIDTH = 260;
-const APPBAR_HEIGHT = 64;
+export const DRAWER_WIDTH = 260;
+export const APPBAR_HEIGHT = 64;
 
 export function App() {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        minHeight: '100vh',
-        bgcolor: 'background.default',
-      }}
-    >
+    <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden', bgcolor: 'background.default' }}>
       <Navbar />
-      <Sidebar />
+      <Sidebar open={isDesktop} />
       <Box
+        component="main"
         sx={{
           flexGrow: 1,
-          ml: `${DRAWER_WIDTH}px`,
-          pt: `${APPBAR_HEIGHT}px`,
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '100vh',
+          height: '100vh',
+          overflow: 'hidden',
+          pt: `${APPBAR_HEIGHT}px`,
+          ml: isDesktop ? `${DRAWER_WIDTH}px` : 0,
+          transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+          minWidth: 0,
         }}
       >
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Box sx={{ flexGrow: 1, overflow: 'auto', p: 3 }}>
           <MainContent />
         </Box>
         <Footer />

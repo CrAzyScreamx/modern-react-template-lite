@@ -17,7 +17,7 @@ import {
   HelpCircle,
 } from 'lucide-react';
 
-const DRAWER_WIDTH = 260;
+import { DRAWER_WIDTH, APPBAR_HEIGHT } from '../App';
 
 const mainMenu = [
   { label: 'Dashboard', icon: LayoutDashboard, active: true },
@@ -31,20 +31,29 @@ const bottomMenu = [
   { label: 'Help', icon: HelpCircle, active: false },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  open?: boolean;
+}
+
+export function Sidebar({ open = true }: SidebarProps) {
   return (
     <Drawer
       variant="permanent"
+      open={open}
       sx={{
-        width: DRAWER_WIDTH,
+        width: open ? DRAWER_WIDTH : 0,
         flexShrink: 0,
+        transition: 'width 0.2s',
         '& .MuiDrawer-paper': {
           width: DRAWER_WIDTH,
           boxSizing: 'border-box',
-          top: 64,
-          height: 'calc(100vh - 64px)',
+          top: APPBAR_HEIGHT,
+          height: `calc(100vh - ${APPBAR_HEIGHT}px)`,
           display: 'flex',
           flexDirection: 'column',
+          transform: open ? 'none' : `translateX(-${DRAWER_WIDTH}px)`,
+          transition: 'transform 0.2s',
+          overflowX: 'hidden',
         },
       }}
     >
