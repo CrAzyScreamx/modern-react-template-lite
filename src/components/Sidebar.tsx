@@ -20,22 +20,24 @@ import {
 import { DRAWER_WIDTH, APPBAR_HEIGHT } from '../App';
 
 const mainMenu = [
-  { label: 'Dashboard', icon: LayoutDashboard, active: true },
-  { label: 'Reports', icon: FileText, active: false },
-  { label: 'Users', icon: Users, active: false },
-  { label: 'Analytics', icon: BarChart3, active: false },
+  { label: 'Dashboard', icon: LayoutDashboard },
+  { label: 'Reports', icon: FileText },
+  { label: 'Users', icon: Users },
+  { label: 'Analytics', icon: BarChart3 },
 ];
 
 const bottomMenu = [
-  { label: 'Settings', icon: Settings, active: false },
-  { label: 'Help', icon: HelpCircle, active: false },
+  { label: 'Settings', icon: Settings },
+  { label: 'Help', icon: HelpCircle },
 ];
 
 interface SidebarProps {
   open?: boolean;
+  activePage?: string;
+  onNavigate?: (label: string) => void;
 }
 
-export function Sidebar({ open = true }: SidebarProps) {
+export function Sidebar({ open = true, activePage = 'Dashboard', onNavigate }: SidebarProps) {
   return (
     <Drawer
       variant="permanent"
@@ -72,25 +74,28 @@ export function Sidebar({ open = true }: SidebarProps) {
       </Typography>
 
       <List disablePadding>
-        {mainMenu.map(({ label, icon: Icon, active }) => (
-          <ListItemButton key={label} selected={active}>
-            <ListItemIcon
-              sx={{
-                minWidth: 36,
-                color: active ? 'primary.main' : 'text.secondary',
-              }}
-            >
-              <Icon size={20} />
-            </ListItemIcon>
-            <ListItemText
-              primary={label}
-              primaryTypographyProps={{
-                fontSize: '0.875rem',
-                fontWeight: active ? 600 : 400,
-              }}
-            />
-          </ListItemButton>
-        ))}
+        {mainMenu.map(({ label, icon: Icon }) => {
+          const active = activePage === label;
+          return (
+            <ListItemButton key={label} selected={active} onClick={() => onNavigate?.(label)}>
+              <ListItemIcon
+                sx={{
+                  minWidth: 36,
+                  color: active ? 'primary.main' : 'text.secondary',
+                }}
+              >
+                <Icon size={20} />
+              </ListItemIcon>
+              <ListItemText
+                primary={label}
+                primaryTypographyProps={{
+                  fontSize: '0.875rem',
+                  fontWeight: active ? 600 : 400,
+                }}
+              />
+            </ListItemButton>
+          );
+        })}
       </List>
 
       <Divider sx={{ my: 2 }} />
