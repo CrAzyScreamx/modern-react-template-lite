@@ -41,7 +41,16 @@ export function App() {
           minWidth: 0,
         }}
       >
-        <Box sx={{ flexGrow: 1, overflow: 'auto', p: 3, height: 0, display: 'flex', flexDirection: 'column' }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            overflow: 'hidden',
+            p: 3,
+            minHeight: 0,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           <MainContent />
         </Box>
         <Footer />

@@ -282,7 +282,6 @@ export function MainContent() {
           gap: 1.5,
           flexGrow: 1,
           minHeight: 0,
-          height: 0,
         }}
       >
         {/* Left col top: Revenue Chart */}
