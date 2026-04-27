@@ -189,7 +189,7 @@ export function MainContent() {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
+        flexGrow: 1,
         gap: 1.5,
       }}
     >

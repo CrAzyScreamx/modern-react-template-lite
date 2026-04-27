@@ -14,7 +14,14 @@ export function App() {
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden', bgcolor: 'background.default' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        height: '100vh',
+        overflow: 'hidden',
+        bgcolor: 'background.default',
+      }}
+    >
       <Navbar />
       <Sidebar open={isDesktop} />
       <Box
@@ -34,7 +41,7 @@ export function App() {
           minWidth: 0,
         }}
       >
-        <Box sx={{ flexGrow: 1, overflow: 'auto', p: 3 }}>
+        <Box sx={{ flexGrow: 1, overflow: 'auto', p: 3, height: 0, display: 'flex', flexDirection: 'column' }}>
           <MainContent />
         </Box>
         <Footer />
