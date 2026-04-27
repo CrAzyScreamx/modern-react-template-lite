@@ -187,9 +187,10 @@ export function MainContent() {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        flexGrow: 1,
+        display: 'grid',
+        height: '100%',
+        gridTemplateRows: 'auto 1fr 160px',
+        gridTemplateColumns: '1fr 280px',
         gap: 1.5,
       }}
     >
@@ -199,7 +200,7 @@ export function MainContent() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          flexShrink: 0,
+          gridColumn: '1 / -1',
         }}
       >
         <Box>
@@ -273,17 +274,6 @@ export function MainContent() {
         </Stack>
       </Box>
 
-      {/* ── Row 2: Main content grid (fills remaining height) ── */}
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 280px',
-          gridTemplateRows: '1fr 160px',
-          gap: 1.5,
-          flexGrow: 1,
-          minHeight: 0,
-        }}
-      >
         {/* Left col top: Revenue Chart */}
         <Card sx={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
           <CardContent sx={{ p: 2, pb: '8px !important', flexShrink: 0 }}>
@@ -596,7 +586,6 @@ export function MainContent() {
             </Table>
           </TableContainer>
         </Card>
-      </Box>
     </Box>
   );
 }
