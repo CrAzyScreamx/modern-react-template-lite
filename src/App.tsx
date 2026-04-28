@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { MainContent } from './components/MainContent';
 import { ReportsContent } from './components/ReportsContent';
+import { HelpContent } from './components/HelpContent';
 import { Footer } from './components/Footer';
 
 export const DRAWER_WIDTH = 260;
@@ -26,7 +27,11 @@ export function App() {
       }}
     >
       <Navbar />
-      <Sidebar open={isDesktop} activePage={activePage} onNavigate={setActivePage} />
+      <Sidebar
+        open={isDesktop}
+        activePage={activePage}
+        onNavigate={setActivePage}
+      />
       <Box
         component="main"
         sx={{
@@ -49,7 +54,13 @@ export function App() {
             flexDirection: 'column',
           }}
         >
-          {activePage === 'Reports' ? <ReportsContent /> : <MainContent />}
+          {activePage === 'Reports' ? (
+            <ReportsContent />
+          ) : activePage === 'Help' ? (
+            <HelpContent />
+          ) : (
+            <MainContent />
+          )}
         </Box>
         <Footer />
       </Box>

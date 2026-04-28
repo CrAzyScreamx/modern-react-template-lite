@@ -37,7 +37,11 @@ interface SidebarProps {
   onNavigate?: (label: string) => void;
 }
 
-export function Sidebar({ open = true, activePage = 'Dashboard', onNavigate }: SidebarProps) {
+export function Sidebar({
+  open = true,
+  activePage = 'Dashboard',
+  onNavigate,
+}: SidebarProps) {
   return (
     <Drawer
       variant="permanent"
@@ -77,7 +81,11 @@ export function Sidebar({ open = true, activePage = 'Dashboard', onNavigate }: S
         {mainMenu.map(({ label, icon: Icon }) => {
           const active = activePage === label;
           return (
-            <ListItemButton key={label} selected={active} onClick={() => onNavigate?.(label)}>
+            <ListItemButton
+              key={label}
+              selected={active}
+              onClick={() => onNavigate?.(label)}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 36,
@@ -114,17 +122,32 @@ export function Sidebar({ open = true, activePage = 'Dashboard', onNavigate }: S
       </Typography>
 
       <List disablePadding>
-        {bottomMenu.map(({ label, icon: Icon }) => (
-          <ListItemButton key={label}>
-            <ListItemIcon sx={{ minWidth: 36, color: 'text.secondary' }}>
-              <Icon size={20} />
-            </ListItemIcon>
-            <ListItemText
-              primary={label}
-              primaryTypographyProps={{ fontSize: '0.875rem' }}
-            />
-          </ListItemButton>
-        ))}
+        {bottomMenu.map(({ label, icon: Icon }) => {
+          const active = activePage === label;
+          return (
+            <ListItemButton
+              key={label}
+              selected={active}
+              onClick={() => onNavigate?.(label)}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 36,
+                  color: active ? 'primary.main' : 'text.secondary',
+                }}
+              >
+                <Icon size={20} />
+              </ListItemIcon>
+              <ListItemText
+                primary={label}
+                primaryTypographyProps={{
+                  fontSize: '0.875rem',
+                  fontWeight: active ? 600 : 400,
+                }}
+              />
+            </ListItemButton>
+          );
+        })}
       </List>
 
       <Box sx={{ flexGrow: 1 }} />
