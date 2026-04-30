@@ -16,10 +16,6 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
-# Copy tsx for running the server without a build step
-COPY --from=build /app/node_modules/.bin/tsx /app/node_modules/.bin/tsx
-COPY --from=build /app/node_modules/tsx /app/node_modules/tsx
-
 COPY server ./server
 COPY nginx.conf /etc/nginx/http.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
