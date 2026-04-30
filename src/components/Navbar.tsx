@@ -7,9 +7,12 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { Box as BoxIcon, Search, Bell } from 'lucide-react';
+import { Box as BoxIcon, Search, Bell, Sun, Moon } from 'lucide-react';
+import { useThemeMode } from '../lib/ThemeModeContext';
 
 export function Navbar() {
+  const { mode, toggleMode } = useThemeMode();
+
   return (
     <AppBar position="fixed" sx={{ zIndex: (t) => t.zIndex.drawer + 1 }}>
       <Toolbar sx={{ justifyContent: 'space-between', minHeight: 64, px: 3 }}>
@@ -40,8 +43,15 @@ export function Navbar() {
           />
         </Box>
 
-        {/* Right: bell + avatar */}
+        {/* Right: theme toggle + bell + avatar */}
         <Stack direction="row" alignItems="center" spacing={1}>
+          <IconButton
+            onClick={toggleMode}
+            sx={{ color: 'text.secondary' }}
+            aria-label={mode === 'dark' ? 'Sun' : 'Moon'}
+          >
+            {mode === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </IconButton>
           <IconButton sx={{ color: 'text.secondary' }}>
             <Badge badgeContent={3} color="error">
               <Bell size={20} />
