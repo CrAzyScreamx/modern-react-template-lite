@@ -13,6 +13,7 @@ import {
   FileText,
   Users,
   BarChart3,
+  BarChart2,
   Settings,
   HelpCircle,
 } from 'lucide-react';
@@ -24,6 +25,7 @@ const mainMenu = [
   { label: 'Reports', icon: FileText },
   { label: 'Users', icon: Users },
   { label: 'Analytics', icon: BarChart3 },
+  { label: 'Metrics', icon: BarChart2 },
 ];
 
 const bottomMenu = [
@@ -37,7 +39,11 @@ interface SidebarProps {
   onNavigate?: (label: string) => void;
 }
 
-export function Sidebar({ open = true, activePage = 'Dashboard', onNavigate }: SidebarProps) {
+export function Sidebar({
+  open = true,
+  activePage = 'Dashboard',
+  onNavigate,
+}: SidebarProps) {
   return (
     <Drawer
       variant="permanent"
@@ -77,7 +83,11 @@ export function Sidebar({ open = true, activePage = 'Dashboard', onNavigate }: S
         {mainMenu.map(({ label, icon: Icon }) => {
           const active = activePage === label;
           return (
-            <ListItemButton key={label} selected={active} onClick={() => onNavigate?.(label)}>
+            <ListItemButton
+              key={label}
+              selected={active}
+              onClick={() => onNavigate?.(label)}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 36,

@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { MainContent } from './components/MainContent';
 import { ReportsContent } from './components/ReportsContent';
+import { MetricsDashboard } from './components/MetricsDashboard';
 import { Footer } from './components/Footer';
 
 export const DRAWER_WIDTH = 260;
@@ -15,6 +16,12 @@ export function App() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const [activePage, setActivePage] = useState<string>('Dashboard');
+
+  function renderPage() {
+    if (activePage === 'Reports') return <ReportsContent />;
+    if (activePage === 'Metrics') return <MetricsDashboard />;
+    return <MainContent />;
+  }
 
   return (
     <Box
@@ -26,7 +33,11 @@ export function App() {
       }}
     >
       <Navbar />
-      <Sidebar open={isDesktop} activePage={activePage} onNavigate={setActivePage} />
+      <Sidebar
+        open={isDesktop}
+        activePage={activePage}
+        onNavigate={setActivePage}
+      />
       <Box
         component="main"
         sx={{
@@ -49,7 +60,7 @@ export function App() {
             flexDirection: 'column',
           }}
         >
-          {activePage === 'Reports' ? <ReportsContent /> : <MainContent />}
+          {renderPage()}
         </Box>
         <Footer />
       </Box>

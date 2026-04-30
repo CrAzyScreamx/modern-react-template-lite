@@ -274,318 +274,323 @@ export function MainContent() {
         </Stack>
       </Box>
 
-        {/* Left col top: Revenue Chart */}
-        <Card sx={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-          <CardContent sx={{ p: 2, pb: '8px !important', flexShrink: 0 }}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box>
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                  Revenue Overview
-                </Typography>
-                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                  Jan – Dec 2026
-                </Typography>
-              </Box>
-            </Stack>
-          </CardContent>
-          <Box
-            sx={{
-              flexGrow: 1,
-              px: 2,
-              pb: 2,
-              display: 'flex',
-              alignItems: 'flex-end',
-              gap: 1,
-              minHeight: 0,
-            }}
+      {/* Left col top: Revenue Chart */}
+      <Card sx={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+        <CardContent sx={{ p: 2, pb: '8px !important', flexShrink: 0 }}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            {revenueData.map((d) => (
+            <Box>
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Revenue Overview
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                Jan – Dec 2026
+              </Typography>
+            </Box>
+          </Stack>
+        </CardContent>
+        <Box
+          sx={{
+            flexGrow: 1,
+            px: 2,
+            pb: 2,
+            display: 'flex',
+            alignItems: 'flex-end',
+            gap: 1,
+            minHeight: 0,
+          }}
+        >
+          {revenueData.map((d) => (
+            <Box
+              key={d.month}
+              sx={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 0.25,
+                height: '100%',
+              }}
+            >
               <Box
-                key={d.month}
                 sx={{
                   flex: 1,
+                  width: '100%',
                   display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 0.25,
-                  height: '100%',
+                  alignItems: 'flex-end',
                 }}
               >
                 <Box
                   sx={{
-                    flex: 1,
                     width: '100%',
+                    height: `${d.value}%`,
+                    bgcolor: 'primary.main',
+                    borderRadius: '3px 3px 0 0',
+                    minHeight: 2,
+                    '&:hover': { bgcolor: 'primary.light' },
+                  }}
+                />
+              </Box>
+              <Typography sx={{ fontSize: '0.6rem', color: 'text.secondary' }}>
+                {d.month}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      </Card>
+
+      {/* Right col: stacked panels */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1.5,
+          minHeight: 0,
+          overflow: 'auto',
+        }}
+      >
+        {/* Channels */}
+        <Card sx={{ flexShrink: 0 }}>
+          <CardContent sx={{ p: 2, pb: '8px !important' }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5 }}>
+              Channels
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              {channels.map((ch) => (
+                <Box key={ch.label}>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    sx={{ mb: 0.25 }}
+                  >
+                    <Typography variant="caption">{ch.label}</Typography>
+                    <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                      {ch.value}%
+                    </Typography>
+                  </Stack>
+                  <LinearProgress
+                    variant="determinate"
+                    value={ch.value}
+                    sx={{
+                      height: 5,
+                      '& .MuiLinearProgress-bar': { bgcolor: ch.color },
+                    }}
+                  />
+                </Box>
+              ))}
+            </Box>
+          </CardContent>
+        </Card>
+
+        {/* Team */}
+        <Card sx={{ flexShrink: 0 }}>
+          <CardContent sx={{ p: 2, pb: '8px !important' }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+              Team
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+              {teamMembers.map((m) => (
+                <Stack
+                  key={m.name}
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Avatar
+                      sx={{
+                        width: 28,
+                        height: 28,
+                        bgcolor: 'primary.main',
+                        fontSize: '0.65rem',
+                      }}
+                    >
+                      {m.initials}
+                    </Avatar>
+                    <Box>
+                      <Typography
+                        sx={{
+                          fontSize: '0.75rem',
+                          fontWeight: 500,
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {m.name}
+                      </Typography>
+                      <Typography
+                        sx={{ fontSize: '0.65rem', color: 'text.secondary' }}
+                      >
+                        {m.role}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                  <Chip
+                    size="small"
+                    label={m.status}
+                    sx={{
+                      height: 18,
+                      fontSize: '0.6rem',
+                      fontWeight: 600,
+                      bgcolor: m.statusBg,
+                      color: m.statusColor,
+                      '& .MuiChip-label': { px: 0.75 },
+                    }}
+                  />
+                </Stack>
+              ))}
+            </Box>
+          </CardContent>
+        </Card>
+
+        {/* Quick Actions */}
+        <Card sx={{ flexShrink: 0 }}>
+          <CardContent sx={{ p: 2, pb: '8px !important' }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+              Quick Actions
+            </Typography>
+            <Box
+              sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}
+            >
+              {quickActions.map((a) => (
+                <Box
+                  key={a.label}
+                  sx={{
+                    p: 1.25,
+                    borderRadius: 1.5,
+                    bgcolor: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(255,255,255,0.06)',
                     display: 'flex',
-                    alignItems: 'flex-end',
+                    alignItems: 'center',
+                    gap: 1,
+                    cursor: 'pointer',
+                    '&:hover': { bgcolor: 'rgba(255,255,255,0.07)' },
                   }}
                 >
                   <Box
                     sx={{
-                      width: '100%',
-                      height: `${d.value}%`,
-                      bgcolor: 'primary.main',
-                      borderRadius: '3px 3px 0 0',
-                      minHeight: 2,
-                      '&:hover': { bgcolor: 'primary.light' },
+                      p: 0.75,
+                      borderRadius: 1,
+                      bgcolor: a.bg,
+                      display: 'flex',
                     }}
-                  />
-                </Box>
-                <Typography
-                  sx={{ fontSize: '0.6rem', color: 'text.secondary' }}
-                >
-                  {d.month}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-        </Card>
-
-        {/* Right col: stacked panels */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 1.5,
-            minHeight: 0,
-            overflow: 'auto',
-          }}
-        >
-          {/* Channels */}
-          <Card sx={{ flexShrink: 0 }}>
-            <CardContent sx={{ p: 2, pb: '8px !important' }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5 }}>
-                Channels
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                {channels.map((ch) => (
-                  <Box key={ch.label}>
-                    <Stack
-                      direction="row"
-                      justifyContent="space-between"
-                      sx={{ mb: 0.25 }}
-                    >
-                      <Typography variant="caption">{ch.label}</Typography>
-                      <Typography variant="caption" sx={{ fontWeight: 600 }}>
-                        {ch.value}%
-                      </Typography>
-                    </Stack>
-                    <LinearProgress
-                      variant="determinate"
-                      value={ch.value}
-                      sx={{
-                        height: 5,
-                        '& .MuiLinearProgress-bar': { bgcolor: ch.color },
-                      }}
-                    />
-                  </Box>
-                ))}
-              </Box>
-            </CardContent>
-          </Card>
-
-          {/* Team */}
-          <Card sx={{ flexShrink: 0 }}>
-            <CardContent sx={{ p: 2, pb: '8px !important' }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                Team
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
-                {teamMembers.map((m) => (
-                  <Stack
-                    key={m.name}
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
                   >
+                    <a.icon size={14} color={a.color} />
+                  </Box>
+                  <Typography sx={{ fontSize: '0.72rem', fontWeight: 600 }}>
+                    {a.label}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+
+      {/* Left col bottom: Transactions */}
+      <Card
+        sx={{
+          minHeight: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        <CardContent sx={{ p: 2, pb: '8px !important', flexShrink: 0 }}>
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            Recent Transactions
+          </Typography>
+        </CardContent>
+        <TableContainer sx={{ flexGrow: 1, overflow: 'auto' }}>
+          <Table size="small" stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell>Amount</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {transactions.map((tx) => (
+                <TableRow key={tx.id}>
+                  <TableCell>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        fontFamily: 'monospace',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      {tx.id}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <Avatar
                         sx={{
-                          width: 28,
-                          height: 28,
+                          width: 24,
+                          height: 24,
                           bgcolor: 'primary.main',
-                          fontSize: '0.65rem',
+                          fontSize: '0.6rem',
                         }}
                       >
-                        {m.initials}
+                        {tx.name
+                          .split(' ')
+                          .map((n) => n[0])
+                          .join('')}
                       </Avatar>
-                      <Box>
-                        <Typography
-                          sx={{
-                            fontSize: '0.75rem',
-                            fontWeight: 500,
-                            lineHeight: 1.2,
-                          }}
-                        >
-                          {m.name}
-                        </Typography>
-                        <Typography
-                          sx={{ fontSize: '0.65rem', color: 'text.secondary' }}
-                        >
-                          {m.role}
-                        </Typography>
-                      </Box>
+                      <Typography variant="caption" sx={{ fontWeight: 500 }}>
+                        {tx.name}
+                      </Typography>
                     </Stack>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                      {tx.amount}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: 'text.secondary' }}
+                    >
+                      {tx.date}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
                     <Chip
                       size="small"
-                      label={m.status}
+                      label={
+                        tx.status.charAt(0).toUpperCase() + tx.status.slice(1)
+                      }
                       sx={{
                         height: 18,
                         fontSize: '0.6rem',
                         fontWeight: 600,
-                        bgcolor: m.statusBg,
-                        color: m.statusColor,
+                        ...statusSx[tx.status],
                         '& .MuiChip-label': { px: 0.75 },
                       }}
                     />
-                  </Stack>
-                ))}
-              </Box>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card sx={{ flexShrink: 0 }}>
-            <CardContent sx={{ p: 2, pb: '8px !important' }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                Quick Actions
-              </Typography>
-              <Box
-                sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}
-              >
-                {quickActions.map((a) => (
-                  <Box
-                    key={a.label}
-                    sx={{
-                      p: 1.25,
-                      borderRadius: 1.5,
-                      bgcolor: 'rgba(255,255,255,0.03)',
-                      border: '1px solid rgba(255,255,255,0.06)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1,
-                      cursor: 'pointer',
-                      '&:hover': { bgcolor: 'rgba(255,255,255,0.07)' },
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        p: 0.75,
-                        borderRadius: 1,
-                        bgcolor: a.bg,
-                        display: 'flex',
-                      }}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      size="small"
+                      sx={{ p: 0.25, color: 'text.secondary' }}
                     >
-                      <a.icon size={14} color={a.color} />
-                    </Box>
-                    <Typography sx={{ fontSize: '0.72rem', fontWeight: 600 }}>
-                      {a.label}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
-
-        {/* Left col bottom: Transactions */}
-        <Card sx={{ minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          <CardContent sx={{ p: 2, pb: '8px !important', flexShrink: 0 }}>
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              Recent Transactions
-            </Typography>
-          </CardContent>
-          <TableContainer sx={{ flexGrow: 1, overflow: 'auto' }}>
-            <Table size="small" stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Customer</TableCell>
-                  <TableCell>Amount</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell />
+                      <MoreHorizontal size={14} />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {transactions.map((tx) => (
-                  <TableRow key={tx.id}>
-                    <TableCell>
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          fontFamily: 'monospace',
-                          color: 'text.secondary',
-                        }}
-                      >
-                        {tx.id}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Stack direction="row" alignItems="center" spacing={1}>
-                        <Avatar
-                          sx={{
-                            width: 24,
-                            height: 24,
-                            bgcolor: 'primary.main',
-                            fontSize: '0.6rem',
-                          }}
-                        >
-                          {tx.name
-                            .split(' ')
-                            .map((n) => n[0])
-                            .join('')}
-                        </Avatar>
-                        <Typography variant="caption" sx={{ fontWeight: 500 }}>
-                          {tx.name}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="caption" sx={{ fontWeight: 600 }}>
-                        {tx.amount}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="caption"
-                        sx={{ color: 'text.secondary' }}
-                      >
-                        {tx.date}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        size="small"
-                        label={
-                          tx.status.charAt(0).toUpperCase() + tx.status.slice(1)
-                        }
-                        sx={{
-                          height: 18,
-                          fontSize: '0.6rem',
-                          fontWeight: 600,
-                          ...statusSx[tx.status],
-                          '& .MuiChip-label': { px: 0.75 },
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      <IconButton
-                        size="small"
-                        sx={{ p: 0.25, color: 'text.secondary' }}
-                      >
-                        <MoreHorizontal size={14} />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Card>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
     </Box>
   );
 }

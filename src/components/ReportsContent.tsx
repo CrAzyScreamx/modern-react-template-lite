@@ -290,7 +290,8 @@ export function ReportsContent() {
                     fontSize: '0.65rem',
                     fontWeight: 600,
                     cursor: 'pointer',
-                    bgcolor: i === 1 ? 'primary.main' : 'rgba(255,255,255,0.06)',
+                    bgcolor:
+                      i === 1 ? 'primary.main' : 'rgba(255,255,255,0.06)',
                     color: i === 1 ? '#fff' : 'text.secondary',
                     '& .MuiChip-label': { px: 1 },
                   }}
@@ -395,7 +396,12 @@ export function ReportsContent() {
         {/* Scheduled Reports */}
         <Card sx={{ flexShrink: 0 }}>
           <CardContent sx={{ p: 2, pb: '8px !important' }}>
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+              sx={{ mb: 1 }}
+            >
               <Calendar size={14} color="#6366F1" />
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Scheduled
@@ -411,11 +417,17 @@ export function ReportsContent() {
                 >
                   <Box>
                     <Typography
-                      sx={{ fontSize: '0.75rem', fontWeight: 500, lineHeight: 1.2 }}
+                      sx={{
+                        fontSize: '0.75rem',
+                        fontWeight: 500,
+                        lineHeight: 1.2,
+                      }}
                     >
                       {s.name}
                     </Typography>
-                    <Typography sx={{ fontSize: '0.65rem', color: 'text.secondary' }}>
+                    <Typography
+                      sx={{ fontSize: '0.65rem', color: 'text.secondary' }}
+                    >
                       Next: {s.next}
                     </Typography>
                   </Box>
@@ -451,18 +463,22 @@ export function ReportsContent() {
                   alignItems="center"
                   justifyContent="space-between"
                 >
-                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                  <Typography
+                    variant="caption"
+                    sx={{ color: 'text.secondary' }}
+                  >
                     {s.label}
                   </Typography>
                   <Stack direction="row" alignItems="center" spacing={0.5}>
                     <Typography sx={{ fontSize: '0.8rem', fontWeight: 700 }}>
                       {s.value}
                     </Typography>
-                    {s.up !== null && (
-                      s.up
-                        ? <TrendingUp size={12} color="#22C55E" />
-                        : <TrendingDown size={12} color="#EF4444" />
-                    )}
+                    {s.up !== null &&
+                      (s.up ? (
+                        <TrendingUp size={12} color="#22C55E" />
+                      ) : (
+                        <TrendingDown size={12} color="#EF4444" />
+                      ))}
                   </Stack>
                 </Stack>
               ))}
@@ -472,7 +488,14 @@ export function ReportsContent() {
       </Box>
 
       {/* Left col bottom: Reports Table */}
-      <Card sx={{ minHeight: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <Card
+        sx={{
+          minHeight: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
         <CardContent sx={{ p: 2, pb: '8px !important', flexShrink: 0 }}>
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             Recent Reports
@@ -538,14 +561,19 @@ export function ReportsContent() {
                     </Stack>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: 'text.secondary' }}
+                    >
                       {r.date}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Chip
                       size="small"
-                      label={r.status.charAt(0).toUpperCase() + r.status.slice(1)}
+                      label={
+                        r.status.charAt(0).toUpperCase() + r.status.slice(1)
+                      }
                       sx={{
                         height: 18,
                         fontSize: '0.6rem',
@@ -556,7 +584,10 @@ export function ReportsContent() {
                     />
                   </TableCell>
                   <TableCell align="right">
-                    <IconButton size="small" sx={{ p: 0.25, color: 'text.secondary' }}>
+                    <IconButton
+                      size="small"
+                      sx={{ p: 0.25, color: 'text.secondary' }}
+                    >
                       <MoreHorizontal size={14} />
                     </IconButton>
                   </TableCell>
