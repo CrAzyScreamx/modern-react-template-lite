@@ -72,7 +72,7 @@ export function MetricCard({ metric, loading, error }: MetricCardProps) {
       </Typography>
 
       <Typography
-        variant="h4"
+        variant="h5"
         component="div"
         sx={{ fontWeight: 700, my: 0.5 }}
       >

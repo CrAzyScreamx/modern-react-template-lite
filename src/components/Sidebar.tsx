@@ -35,32 +35,35 @@ const bottomMenu = [
 
 interface SidebarProps {
   open?: boolean;
+  variant?: 'permanent' | 'temporary';
   activePage?: string;
   onNavigate?: (label: string) => void;
+  onClose?: () => void;
 }
 
 export function Sidebar({
   open = true,
+  variant = 'permanent',
   activePage = 'Dashboard',
   onNavigate,
+  onClose,
 }: SidebarProps) {
+  const isPermanent = variant === 'permanent';
   return (
     <Drawer
-      variant="permanent"
+      variant={variant}
       open={open}
+      onClose={onClose}
       sx={{
-        width: open ? DRAWER_WIDTH : 0,
+        width: isPermanent ? DRAWER_WIDTH : 0,
         flexShrink: 0,
-        transition: 'width 0.2s',
         '& .MuiDrawer-paper': {
           width: DRAWER_WIDTH,
           boxSizing: 'border-box',
-          top: APPBAR_HEIGHT,
-          height: `calc(100vh - ${APPBAR_HEIGHT}px)`,
+          top: isPermanent ? APPBAR_HEIGHT : 0,
+          height: isPermanent ? `calc(100vh - ${APPBAR_HEIGHT}px)` : '100vh',
           display: 'flex',
           flexDirection: 'column',
-          transform: open ? 'none' : `translateX(-${DRAWER_WIDTH}px)`,
-          transition: 'transform 0.2s',
           overflowX: 'hidden',
         },
       }}

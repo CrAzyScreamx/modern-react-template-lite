@@ -7,14 +7,28 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { Box as BoxIcon, Search, Bell } from 'lucide-react';
+import { Box as BoxIcon, Search, Bell, Menu } from 'lucide-react';
 
-export function Navbar() {
+interface NavbarProps {
+  onMenuToggle?: () => void;
+}
+
+export function Navbar({ onMenuToggle }: NavbarProps) {
   return (
     <AppBar position="fixed" sx={{ zIndex: (t) => t.zIndex.drawer + 1 }}>
       <Toolbar sx={{ justifyContent: 'space-between', minHeight: 64, px: 3 }}>
-        {/* Left: logo */}
+        {/* Left: hamburger (mobile only) + logo */}
         <Stack direction="row" alignItems="center" spacing={1}>
+          {onMenuToggle && (
+            <IconButton
+              edge="start"
+              onClick={onMenuToggle}
+              aria-label="Open menu"
+              sx={{ color: 'text.primary', mr: 0.5 }}
+            >
+              <Menu size={22} />
+            </IconButton>
+          )}
           <BoxIcon size={24} color="#6366F1" />
           <Typography variant="h5" sx={{ fontWeight: 700 }}>
             MyApp
