@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
@@ -7,9 +8,16 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { Box as BoxIcon, Search, Bell } from 'lucide-react';
+import { Box as BoxIcon, Search, Bell, Moon, Sun } from 'lucide-react';
+import { useColorTheme } from '../context/ThemeContext';
 
 export function Navbar() {
+  const { mode, toggleTheme } = useColorTheme();
+
+  const handleToggleTheme = useCallback(() => {
+    toggleTheme();
+  }, [toggleTheme]);
+
   return (
     <AppBar position="fixed" sx={{ zIndex: (t) => t.zIndex.drawer + 1 }}>
       <Toolbar sx={{ justifyContent: 'space-between', minHeight: 64, px: 3 }}>
@@ -40,8 +48,23 @@ export function Navbar() {
           />
         </Box>
 
-        {/* Right: bell + avatar */}
+        {/* Right: theme toggle + bell + avatar */}
         <Stack direction="row" alignItems="center" spacing={1}>
+          <IconButton
+            onClick={handleToggleTheme}
+            aria-pressed={mode === 'dark'}
+            aria-label="Toggle dark mode"
+            sx={{
+              color: 'text.secondary',
+              '&:focus-visible': {
+                outline: '2px solid',
+                outlineColor: 'primary.main',
+                outlineOffset: 2,
+              },
+            }}
+          >
+            {mode === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </IconButton>
           <IconButton sx={{ color: 'text.secondary' }}>
             <Badge badgeContent={3} color="error">
               <Bell size={20} />
